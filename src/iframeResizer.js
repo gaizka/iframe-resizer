@@ -1001,3 +1001,7 @@
 	}
 
 })(window || {});
+// Local Variables:
+// indent-tabs-mode: t
+// tab-width: 2
+// End:
