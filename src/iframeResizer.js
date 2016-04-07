@@ -36,6 +36,7 @@
 			checkOrigin               : true,
 			inPageLinks               : false,
 			enablePublicMethods       : true,
+			extraSize : {height: 0, width: 0},
 			heightCalculationMethod   : 'bodyOffset',
 			id                        : 'iFrameResizer',
 			interval                  : 32,
@@ -574,12 +575,17 @@
 
 	function setSize(messageData){
 		function setDimension(dimension){
-			messageData.iframe.style[dimension] = messageData[dimension] + 'px';
+			if (parseInt(messageData.iframe.style[dimension], 10) === parseInt(messageData[dimension], 10)) {
+				log(' IFrame (' + iframeID + ' no change since received ' + dimension + ' size (' + messageData[dimension] + ') is same as current)');
+				return;
+			}
+			var size = parseInt(messageData[dimension], 10) + (settings[iframeID].extraSize[dimension] || 0);
+			messageData.iframe.style[dimension] = size + 'px';
 			log(
 				messageData.id,
 				'IFrame (' + iframeId +
 				') ' + dimension +
-				' set to ' + messageData[dimension] + 'px'
+				' set to ' + size + 'px (' + messageData[dimension] + ') + extra' + settings[iframeID].extraSize[dimension] + 'px'
 			);
 		}
 
